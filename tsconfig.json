@@ -8,12 +8,7 @@
       "outDir": "dist",
       "allowJs": true,
       "lib": ["dom", "es6"],
-      "baseUrl": "./src",
-      "paths": {
-        "@/*": [
-          "./*"
-        ]
-      }
+      "baseUrl": "./src"
     },
     "exclude": [
       "node_modules",
@@ -22,8 +17,5 @@
     "include": [
       "src/**/*.ts",
       "tests/**/*.spec.ts"
-    ],
-    "files": [
-      "src/index.ts"
     ]
   }
