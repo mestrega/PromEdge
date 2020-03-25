@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import path from 'path';
 import AppRoutes from './routes';
 
 const app = express();
@@ -15,5 +16,7 @@ AppRoutes.forEach(route => {
 app.listen( port, () => {
   console.log(`Server running at http://localhost:${port}/`);
 });
+
+export const projectRoot = path.resolve(__dirname).replace(/\\/g, '/').replace(/src$/g, '');
 
 export default app;
