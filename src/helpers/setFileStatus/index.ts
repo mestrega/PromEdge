@@ -7,6 +7,8 @@ export interface UnsavedFile {
 }
 
 const setFileStatus = (savedFiles: SavedFile[], unsavedFiles: UnsavedFile[], saveAction: SaveFileOutput, fileName: string) => {
+  // If the action is successful, add that file to the 'saved' list
+  // If it fails, add it to the 'unsaved' list with the error thrown.
   if (saveAction === 'success') {
     savedFiles.push(fileName);
   } else {

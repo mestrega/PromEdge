@@ -6,7 +6,10 @@ import { projectRoot } from '../../index';
 export type SaveFileOutput = 'success' | NodeJS.ErrnoException;
 
 const saveFile = (fileLocation: string, fileName: string, fileContents: Row | Row[]): SaveFileOutput => {
+  // Create required directories
   checkDirectories(fileLocation);
+
+  // If the file is saved, return 'success', else return the error thrown
   try {
     fs.writeFileSync(`${projectRoot}files/${fileLocation}/${fileName}`, JSON.stringify(fileContents));
     return 'success';

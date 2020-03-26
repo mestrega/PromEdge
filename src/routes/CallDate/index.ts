@@ -1,7 +1,7 @@
 import express from 'express';
 import getDataFile from '../../helpers/getDataFile';
 import saveFile from '../../helpers/saveFile';
-import setFileStatus from '../../helpers/setFileStatus';
+import setFileStatus, { UnsavedFile, SavedFile } from '../../helpers/setFileStatus';
 
 const router = express.Router({ mergeParams: true });
 
@@ -21,12 +21,14 @@ export default router.get('/start-date/:startDate/end-date/:endDate', (req, res)
   const fileLocation = req.query.fileLocation;
   const byIncident = req.query.byIncident;
 
+  // A file location is required, let the user know they need it if it isn't provided
   if (typeof fileLocation !== 'string') {
     throw new Error('Please provide a location to save the files in the form of a string in the fileLocation query parameter.')
   } else {
     fileLocation.replace(/^\/|\/$/g, '');
   }
 
+  // Set SoQL query parameters
 	const options = {
 		limit: 5000,
 		where: `call_date >= "${startDate}" AND call_date <= "${endDate}"`
@@ -35,9 +37,12 @@ export default router.get('/start-date/:startDate/end-date/:endDate', (req, res)
 	const file = getDataFile(options);
 	
 	file.then(response => {
-    
-    const savedFiles: string[] = [];
-    const unsavedFiles: {fileName: string, error: NodeJS.ErrnoException}[] = [];
+    const savedFiles: SavedFile[] = [];
+    const unsavedFiles: UnsavedFile[] = [];
+
+    // If the byIncident flag is set in the query parameters
+    // Save the files by incident number
+    // Else save the files by row.
     if (typeof byIncident !== 'undefined') {
       const incidentNumbers = response.map(row => row.incident_number );
 

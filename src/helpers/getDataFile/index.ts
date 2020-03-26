@@ -7,8 +7,10 @@ interface GetDataFileOptions {
 };
 
 const getDataFile = (options?: GetDataFileOptions) => {
+  // Set a base URL
   let url = 'https://data.sfgov.org/resource/nuek-vuh3.json';
 
+  // If there are URL parameters, convert them to SoQL
   if (options) {
     const params = []
 
@@ -18,6 +20,7 @@ const getDataFile = (options?: GetDataFileOptions) => {
       params.push(param);
     });
 
+    // Append the Base URL with the SoQL query parameters
     url += `?${params.join('&')}`;
   }
 
